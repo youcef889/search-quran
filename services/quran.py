@@ -258,60 +258,60 @@ class Quran:
             "total": total,
             "pages": pages
         }
-def get_verse_context(self, surah_id, verse_id, before=3, after=3):
-    """
-    Return a selected verse together with surrounding verses.
+    def get_verse_context(self, surah_id, verse_id, before=3, after=3):
+        """
+        Return a selected verse together with surrounding verses.
 
-    Example:
-        before=3
-        after=3
+        Example:
+            before=3
+            after=3
 
-    gives:
+        gives:
 
-        verse - 3
-        verse - 2
-        verse - 1
-        verse
-        verse + 1
-        verse + 2
-        verse + 3
-    """
+            verse - 3
+            verse - 2
+            verse - 1
+            verse
+            verse + 1
+            verse + 2
+            verse + 3
+        """
 
-    surah = self.get_surah(surah_id)
+        surah = self.get_surah(surah_id)
 
-    if not surah:
-        return []
+        if not surah:
+            return []
 
-    verse_numbers = sorted(
-        int(number)
-        for number in surah.keys()
-    )
+        verse_numbers = sorted(
+            int(number)
+            for number in surah.keys()
+        )
 
-    verse_number = int(verse_id)
+        verse_number = int(verse_id)
 
-    if verse_number not in verse_numbers:
-        return []
+        if verse_number not in verse_numbers:
+            return []
 
-    selected_index = verse_numbers.index(verse_number)
+        selected_index = verse_numbers.index(verse_number)
 
-    start = max(
-        0,
-        selected_index - before
-    )
+        start = max(
+            0,
+            selected_index - before
+        )
 
-    end = min(
-        len(verse_numbers),
-        selected_index + after + 1
-    )
+        end = min(
+            len(verse_numbers),
+            selected_index + after + 1
+        )
 
-    context = []
+        context = []
 
-    for number in verse_numbers[start:end]:
+        for number in verse_numbers[start:end]:
 
-        context.append({
-            "number": number,
-            "text": surah[str(number)],
-            "selected": number == verse_number
-        })
+            context.append({
+                "number": number,
+                "text": surah[str(number)],
+                "selected": number == verse_number
+            })
 
-    return context
+        return context
