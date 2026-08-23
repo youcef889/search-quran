@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}
+القرآن الكريم
+{% endblock %}
+
+
+{% block content %}
+
+<div class="navigation">
+
+    <label for="surah">
+        السورة:
+    </label>
+
+    <select
+        id="surah"
+        onchange="location.href='/surah/' + this.value"
+    >
+
+        {% for surah_id, surah_verses in surahs.items() %}
+
+            <option
+                value="{{ surah_id }}"
+                {% if current_surah|string == surah_id|string %}
+                    selected
+                {% endif %}
+            >
+                سورة {{ surah_id }}
+            </option>
+
+        {% endfor %}
+
+    </select>
+
+</div>
+
+
+{% if verses %}
+
+<section class="quran">
+
+    {% for verse in verses %}
+
+    <a
+        class="verse
+        {% if verse.selected %}
+            selected-verse
+        {% endif %}
+        "
+        id="verse-{{ verse.number }}"
+        href="{{ url_for(
+            'main.surah',
+            surah_id=current_surah,
+            verse=verse.number
+        ) }}"
+    >
+
+        <span class="verse-number">
+            {{ verse.number }}
+        </span>
+
+        <span class="verse-text">
+            {{ verse.text }}
+        </span>
+
+    </a>
+
+    {% endfor %}
+
+</section>
+
+{% else %}
+
+<div class="welcome">
+
+    <h2>القرآن الكريم</h2>
+
+    <p>
+        اختر سورة لعرض الآيات
+    </p>
+
+</div>
+
+{% endif %}
+
+
+{% endblock %}

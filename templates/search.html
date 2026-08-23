@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}
+نتائج البحث
+{% endblock %}
+
+
+{% block content %}
+
+<section class="search-header">
+
+    <h2>نتائج البحث</h2>
+
+    {% if query %}
+
+        <p>
+            البحث عن:
+            <strong>{{ query }}</strong>
+        </p>
+
+        <p>
+            عدد النتائج:
+            {{ total }}
+        </p>
+
+    {% endif %}
+
+</section>
+
+
+{% if results %}
+
+<section class="results">
+
+    {% for result in results %}
+
+    <article class="result">
+
+        <div class="result-info">
+
+            <a href="{{ url_for(
+    'main.surah',
+    surah_id=result.surah,
+    verse=result.verse
+) }}">
+
+                سورة {{ result.surah }}
+                — الآية {{ result.verse }}
+
+            </a>
+
+            <span class="score">
+                {{ result.score }}
+            </span>
+
+        </div>
+
+
+        <p class="result-text">
+            {{ result.text }}
+        </p>
+
+    </article>
+
+    {% endfor %}
+
+</section>
+
+
+<!-- Pagination -->
+
+{% if pages > 1 %}
+
+<nav class="pagination">
+
+    {% if page > 1 %}
+
+        <a href="{{ url_for(
+            'main.search',
+            q=query,
+            page=page - 1
+        ) }}">
+            السابق
+        </a>
+
+    {% endif %}
+
+
+    <span>
+        صفحة {{ page }} من {{ pages }}
+    </span>
+
+
+    {% if page < pages %}
+
+        <a href="{{ url_for(
+            'main.search',
+            q=query,
+            page=page + 1
+        ) }}">
+            التالي
+        </a>
+
+    {% endif %}
+
+</nav>
+
+{% endif %}
+
+
+{% elif query %}
+
+<div class="no-results">
+
+    <h3>لا توجد نتائج</h3>
+
+    <p>
+        لم يتم العثور على آيات مطابقة للبحث.
+    </p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
