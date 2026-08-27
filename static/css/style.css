@@ -309,3 +309,40 @@ body {
     box-shadow:
         inset 4px 0 0 #c9a900;
 }
+
+
+/* Search result highlighting */
+.search-match {
+    border-radius: 0.3em;
+    padding: 0.05em 0.15em;
+}
+
+
+.copy-verse {
+    float: left;
+    margin-top: -2px;
+    padding: 7px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: white;
+    color: #333;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.copy-verse:hover {
+    background: #eee;
+}
+
+.copy-verse.copied {
+    background: #e4f2dc;
+    border-color: #cddfc5;
+    color: #276b2d;
+}
+
+@media (max-width: 700px) {
+    .copy-verse {
+        float: none;
+        margin-top: 10px;
+    }
+}
