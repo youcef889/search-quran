@@ -14,19 +14,41 @@
     {% if query %}
 
         <p>
-            البحث عن:
-            <strong>{{ query }}</strong>
+            كلمات البحث:
+            <strong class="query-badge">{{ query }}</strong>
         </p>
 
         <p>
             عدد النتائج:
             {{ total }}
+            آية
+        </p>
+
+    {% else %}
+
+        <p>
+            اكتب كلمة أو أكثر في الحقل أعلاه للبحث في القرآن الكريم.
         </p>
 
     {% endif %}
 
 </section>
 
+<form action="{{ url_for('search.search_page') }}" method="get" class="search-form">
+
+    <input
+        type="search"
+        name="q"
+        placeholder="ابحث في القرآن الكريم..."
+        value="{{ query }}"
+        aria-label="البحث في القرآن"
+    >
+
+    <button type="submit">
+        بحث
+    </button>
+
+</form>
 
 {% if results %}
 
@@ -38,19 +60,23 @@
 
         <div class="result-info">
 
-            <a href="{{ url_for(
-    'main.surah',
-    surah_id=result.surah,
-    verse=result.verse
-) }}">
+            <span class="surah-chip">
+                <span class="chip-number">{{ result.surah }}</span>
+                {{ surah_names.get(result.surah|string, '') }}
+            </span>
 
-                سورة {{ result.surah }}
-                — الآية {{ result.verse }}
+            <a href="{{ url_for(
+                'main.surah',
+                surah_id=result.surah,
+                verse=result.verse
+            ) }}">
+
+                الآية {{ result.verse }}
 
             </a>
 
-            <span class="score">
-                {{ result.score }}
+            <span class="score" title="درجة الصلة">
+                درجة الصلة {{ result.score }}
             </span>
 
             <button
@@ -63,7 +89,6 @@
             </button>
 
         </div>
-
 
         <p class="result-text" dir="rtl">
             {% for segment in result.highlight.segments %}
@@ -81,55 +106,16 @@
 
 </section>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".copy-verse").forEach((button) => {
-        button.addEventListener("click", async () => {
-            const text = button.dataset.copyText || "";
-            const original = button.textContent;
-
-            try {
-                await navigator.clipboard.writeText(text);
-                button.textContent = "تم النسخ ✓";
-                button.classList.add("copied");
-            } catch (error) {
-                // Clipboard API may be unavailable outside a secure context.
-                const area = document.createElement("textarea");
-                area.value = text;
-                area.setAttribute("readonly", "");
-                area.style.position = "fixed";
-                area.style.opacity = "0";
-                document.body.appendChild(area);
-                area.select();
-
-                try {
-                    document.execCommand("copy");
-                    button.textContent = "تم النسخ ✓";
-                    button.classList.add("copied");
-                } finally {
-                    area.remove();
-                }
-            }
-
-            setTimeout(() => {
-                button.textContent = original;
-                button.classList.remove("copied");
-            }, 1500);
-        });
-    });
-});
-</script>
-
 <!-- Pagination -->
 
 {% if pages > 1 %}
 
-<nav class="pagination">
+<nav class="pagination" aria-label="التنقل بين الصفحات">
 
     {% if page > 1 %}
 
         <a href="{{ url_for(
-            'main.search',
+            'search.search_page',
             q=query,
             page=page - 1
         ) }}">
@@ -138,16 +124,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     {% endif %}
 
-
     <span>
         صفحة {{ page }} من {{ pages }}
     </span>
 
-
     {% if page < pages %}
 
         <a href="{{ url_for(
-            'main.search',
+            'search.search_page',
             q=query,
             page=page + 1
         ) }}">

@@ -1,67 +1,210 @@
-/* ========== Custom Properties ========== */
+/* ============================================================
+   القرآن الكريم — Design system
+   ============================================================ */
 :root {
-  --color-bg: #f5f5f5;
-  --color-text: #222;
-  --color-primary: #0759a5;
-  --color-secondary: #276b2d;
-  --color-accent: #e4f2dc;
-  --color-accent-dark: #cddfc5;
-  --color-highlight: #f6df72;
-  --color-selected: #fff3a6;
-  --color-border: #ddd;
-  --color-shadow: rgba(0, 0, 0, 0.04);
-  --font-family: "Scheherazade New", "Amiri", "Noto Naskh Arabic", "Segoe UI Historic", serif;
-  --max-width: 1100px;
+  /* Palette */
+  --color-bg: #f7f4ec;
+  --color-surface: #ffffff;
+  --color-surface-soft: #ffffff;
+  --color-ink: #2c3e35;
+  --color-text: #2c3e35;
+  --color-muted: #77837a;
+  --color-primary: #1f6e4e;
+  --color-primary-dark: #12513a;
+  --color-primary-strong: #0d3b2a;
+  --color-primary-soft: #e8f2ec;
+  --color-gold: #b98a1d;
+  --color-gold-soft: #f7ecd4;
+  --color-accent: #e8f2ec;
+  --color-accent-dark: #cfe3d6;
+  --color-highlight: #ffe9a8;
+  --color-selected: #fdf3cf;
+  --color-border: #e6e0d2;
+  --color-border-strong: #d8d0bd;
+  --color-shadow: rgba(44, 62, 53, 0.06);
+  --color-shadow-lg: rgba(44, 62, 53, 0.14);
+  --color-danger: #b3463a;
+
+  /* Typography */
+  --font-ui: "Tajawal", "Scheherazade New", "Noto Naskh Arabic", sans-serif;
+  --font-quran: "Scheherazade New", "Amiri", "Noto Naskh Arabic", serif;
+
+  /* Layout */
+  --max-width: 1080px;
+  --spacing-xs: 0.375rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 3rem;
-  --radius: 8px;
-  --radius-sm: 5px;
-  --transition: 0.2s ease;
+  --spacing-lg: 1.75rem;
+  --spacing-xl: 2.75rem;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --radius-full: 999px;
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ========== Reset & Base ========== */
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-family);
-  line-height: 1.6;
-  padding: 0 var(--spacing-sm);
+html {
+  scroll-behavior: smooth;
 }
 
-/* ========== Typography ========== */
-h1 {
-  font-size: clamp(1.8rem, 5vw, 2.8rem);
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(31, 110, 78, 0.08), transparent 60%),
+    radial-gradient(900px 500px at 10% 110%, rgba(185, 138, 29, 0.07), transparent 55%),
+    var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  line-height: 1.7;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+::selection {
+  background: var(--color-gold-soft);
+  color: var(--color-primary-strong);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ========== Navbar ========== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(13, 59, 42, 0.92);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 14px rgba(13, 40, 30, 0.25);
+}
+
+.navbar-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  min-height: 58px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fdf6e3;
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity var(--transition);
+}
+
+.brand:hover {
+  opacity: 0.85;
+}
+
+.brand-icon {
+  color: var(--color-gold);
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.navbar-links a {
+  color: rgba(253, 246, 227, 0.82);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-full);
+  transition: background var(--transition), color var(--transition);
+}
+
+.navbar-links a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.navbar-links a.active {
+  background: rgba(185, 138, 29, 0.28);
+  color: #ffe9a8;
+}
+
+/* ========== Hero ========== */
+.hero {
+  position: relative;
   text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
+  color: var(--color-primary-strong);
+}
+
+.hero-title {
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.4;
+  color: var(--color-primary-strong);
+}
+
+.hero-subtitle {
+  margin-top: var(--spacing-xs);
+  color: var(--color-muted);
+  font-family: var(--font-quran);
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+.hero-ornament {
+  width: 64px;
+  height: 5px;
+  margin: 0 auto var(--spacing-md);
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
 }
 
 /* ========== Layout ========== */
+.container {
+  flex: 1;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md) var(--spacing-xl);
+}
+
 .header,
-.container,
 .search-header,
 .welcome,
-.no-results {
+.no-results,
+.error-box {
   max-width: var(--max-width);
   margin: var(--spacing-md) auto;
   padding: var(--spacing-lg);
-  background: #fff;
+  background: var(--color-surface);
   border-radius: var(--radius);
   border: 1px solid var(--color-border);
+  box-shadow: 0 2px 18px var(--color-shadow);
 }
 
 .header {
-  margin-top: var(--spacing-lg);
-}
-
-.container {
-  margin-top: var(--spacing-md);
+  margin-top: var(--spacing-xl);
 }
 
 /* ========== Search Form ========== */
@@ -69,154 +212,326 @@ h1 {
   display: flex;
   gap: var(--spacing-sm);
   flex-wrap: wrap;
+  padding: var(--spacing-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 18px var(--color-shadow);
+  margin-bottom: var(--spacing-lg);
 }
 
-.search-form input {
+.search-form input,
+.passage-form input,
+.passage-form textarea {
   flex: 1;
-  min-width: 200px;
-  padding: 0.75rem 1rem;
+  min-width: 220px;
+  padding: 0.8rem 1.1rem;
   font: inherit;
-  font-size: 1.1rem;
-  border: 1px solid #ccc;
+  font-size: 1.05rem;
+  color: var(--color-text);
+  background: var(--color-surface-soft);
+  border: 1.5px solid var(--color-border-strong);
   border-radius: var(--radius-sm);
-  transition: border-color var(--transition);
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
-.search-form input:focus {
+.search-form input:focus,
+.passage-form input:focus,
+.passage-form textarea:focus {
   outline: none;
   border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(31, 110, 78, 0.14);
 }
 
-.search-form button {
-  padding: 0.75rem 1.5rem;
-  background: #333;
+.search-form button,
+.passage-form button {
+  padding: 0.8rem 1.8rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   color: #fff;
   font: inherit;
+  font-weight: 700;
   font-size: 1.05rem;
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background var(--transition);
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+  box-shadow: 0 4px 14px rgba(31, 110, 78, 0.28);
 }
 
 .search-form button:hover,
-.search-form button:focus-visible {
-  background: #555;
+.passage-form button:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(31, 110, 78, 0.34);
 }
 
-.search-form button:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+.search-form button:active,
+.passage-form button:active {
+  transform: translateY(0);
 }
 
-/* ========== Navigation ========== */
+/* ========== Navigation / Surah selector ========== */
 .navigation {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
   flex-wrap: wrap;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: linear-gradient(135deg, var(--color-primary-soft), var(--color-gold-soft));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.navigation label {
+  font-weight: 700;
+  color: var(--color-primary-dark);
 }
 
 .navigation select {
-  padding: 0.5rem 1rem;
+  flex: 1;
+  min-width: 220px;
+  padding: 0.65rem 1rem;
   font: inherit;
-  font-size: 1rem;
-  border: 1px solid #ccc;
+  font-size: 1.05rem;
+  color: var(--color-text);
+  border: 1.5px solid var(--color-border-strong);
   border-radius: var(--radius-sm);
   background: #fff;
+  cursor: pointer;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.navigation select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(31, 110, 78, 0.14);
+}
+
+/* ========== Surah heading ========== */
+.surah-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.surah-heading .ornament {
+  color: var(--color-gold);
+  font-size: 1.2rem;
+}
+
+.surah-heading h2 {
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  font-weight: 800;
+  color: var(--color-primary-strong);
+}
+
+.surah-heading .surah-english {
+  color: var(--color-muted);
+  font-family: var(--font-quran);
+  font-size: 1.1rem;
 }
 
 /* ========== Quran Display ========== */
 .quran {
-  background: var(--color-accent);
+  background: var(--color-surface);
   padding: var(--spacing-lg);
-  border: 1px solid var(--color-accent-dark);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  text-align: right;
+  box-shadow: 0 4px 26px var(--color-shadow);
 }
 
-/* Verse – now block-level with hover effect */
+/* Verse block-level */
 .verse {
-  display: block;
-  padding: 0.75rem 0.625rem;
-  margin: 0.3rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  padding: 1rem 0.9rem;
+  margin: 0.35rem 0;
   border-radius: var(--radius-sm);
-  transition: background var(--transition);
+  border: 1px solid transparent;
   text-decoration: none;
   color: inherit;
+  scroll-margin-top: 88px;
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
 }
 
 .verse:hover {
-  background: var(--color-shadow);
+  background: var(--color-primary-soft);
+  border-color: var(--color-border-strong);
 }
 
 .verse-text {
-  font-size: clamp(1.4rem, 4vw, 2.8rem);
-  line-height: 2.2;
-  color: var(--color-primary);
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  flex: 1;
+  font-family: var(--font-quran);
+  font-size: clamp(1.5rem, 4.5vw, 2.7rem);
+  line-height: 2.15;
+  color: var(--color-primary-strong);
+  font-weight: 500;
   font-feature-settings: "kern" 1;
 }
 
 .verse-number {
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  margin: 0 0.3rem;
+  width: 2.1rem;
+  height: 2.1rem;
+  margin-top: 1.6rem;
   border-radius: 50%;
-  background: #d8ead0;
-  color: var(--color-secondary);
-  font-size: 0.9rem;
-  font-weight: bold;
+  background:
+    radial-gradient(circle at 35% 30%, #fdf3cf, var(--color-gold-soft));
+  border: 1px solid #e5ce8f;
+  color: var(--color-gold);
+  font-family: var(--font-quran);
+  font-size: 1rem;
+  font-weight: 700;
 }
 
-/* ========== Search Results ========== */
-.result {
-  background: #fff;
-  padding: var(--spacing-md);
+.selected-verse {
+  background: var(--color-selected);
+  border-color: #eadc9e;
+  box-shadow: inset 4px 0 0 var(--color-gold);
+}
+
+.selected-verse .verse-number {
+  background: var(--color-gold);
+  color: #fff;
+  border-color: var(--color-gold);
+}
+
+/* ========== Welcome ========== */
+.welcome {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+.welcome h2 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  color: var(--color-primary-strong);
+  margin-bottom: var(--spacing-xs);
+}
+
+.welcome p {
+  color: var(--color-muted);
+  font-size: 1.1rem;
+}
+
+/* ========== Search Header ========== */
+.search-header h2 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--color-primary-strong);
   margin-bottom: var(--spacing-sm);
+}
+
+.search-header p {
+  color: var(--color-muted);
+}
+
+.search-header .query-badge {
+  display: inline-block;
+  margin-top: var(--spacing-xs);
+}
+
+/* ========== Results ========== */
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.result {
+  background: var(--color-surface);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  border-right: 5px solid var(--color-primary);
   border-radius: var(--radius);
-  border-right: 4px solid var(--color-secondary);
+  box-shadow: 0 2px 16px var(--color-shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.result:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--color-shadow-lg);
+}
+
+.result-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-sm);
 }
 
 .result-info a {
-  color: var(--color-secondary);
+  color: var(--color-primary-dark);
+  font-weight: 700;
   font-size: 1.05rem;
   text-decoration: none;
+  transition: color var(--transition);
 }
 
 .result-info a:hover {
+  color: var(--color-gold);
   text-decoration: underline;
 }
 
-.result-text {
-  font-size: clamp(1.2rem, 3vw, 2.4rem);
-  line-height: 2;
-  color: var(--color-primary);
-  margin-bottom: 0;
+.surah-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  font-size: 0.92rem;
 }
 
-.result-text mark {
-  background: var(--color-highlight);
-  color: inherit;
-  padding: 0.1rem 0.3rem;
-  border-radius: var(--radius-sm);
+.surah-chip .chip-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.25rem;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.75rem;
+  font-family: var(--font-quran);
 }
 
 .score {
-  margin-right: 0.5rem;
-  font-size: 0.75rem;
-  color: #888;
+  margin-inline-start: auto;
+  padding: 0.2rem 0.7rem;
+  border-radius: var(--radius-full);
+  background: var(--color-gold-soft);
+  border: 1px solid #eadcae;
+  color: var(--color-gold);
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
-/* ========== Highlighted verse (selected) ========== */
-.selected-verse {
-  background: var(--color-selected);
-  box-shadow: inset 4px 0 0 #c9a900;
+.result-text {
+  font-family: var(--font-quran);
+  font-size: clamp(1.25rem, 3.2vw, 2.1rem);
+  line-height: 2.05;
+  color: var(--color-primary-strong);
+}
+
+.result-text mark {
+  background: linear-gradient(transparent 62%, var(--color-highlight) 62%);
+  color: inherit;
+  font-weight: 700;
+  border-radius: 0.2em;
+  padding: 0 0.1em;
 }
 
 /* ========== Copy Button ========== */
@@ -229,29 +544,108 @@ h1 {
 
 .copy-verse {
   flex-shrink: 0;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #ccc;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-sm);
   background: #fff;
-  color: #333;
+  color: var(--color-primary-dark);
   font: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all var(--transition);
 }
 
 .copy-verse:hover {
-  background: #eee;
-}
-
-.copy-verse:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
 }
 
 .copy-verse.copied {
-  background: var(--color-accent);
-  border-color: var(--color-accent-dark);
-  color: var(--color-secondary);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+/* ========== Passage form ========== */
+.passage-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-md);
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.passage-form textarea {
+  min-height: 88px;
+  resize: vertical;
+  font-family: var(--font-quran);
+  font-size: 1.3rem;
+  line-height: 1.9;
+}
+
+.passage-form button {
+  align-self: flex-start;
+}
+
+/* ========== No results ========== */
+.no-results {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+.no-results h3 {
+  font-size: clamp(1.3rem, 3.5vw, 1.7rem);
+  color: var(--color-primary-strong);
+  margin-bottom: var(--spacing-xs);
+}
+
+.no-results p {
+  color: var(--color-muted);
+}
+
+.no-results a {
+  font-weight: 700;
+}
+
+/* ========== Error box ========== */
+.error-box {
+  text-align: center;
+  border-color: rgba(179, 70, 58, 0.35);
+  border-right: 5px solid var(--color-danger);
+}
+
+.error-box h2 {
+  color: var(--color-danger);
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  margin-bottom: var(--spacing-xs);
+}
+
+.error-box p {
+  color: var(--color-muted);
+  margin-bottom: var(--spacing-xs);
+}
+
+.error-box .error-code {
+  display: inline-block;
+  margin-bottom: var(--spacing-sm);
+  padding: 0.25rem 1rem;
+  border-radius: var(--radius-full);
+  background: rgba(179, 70, 58, 0.1);
+  color: var(--color-danger);
+  font-weight: 800;
+}
+
+.error-box a {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.error-box a:hover {
+  text-decoration: underline;
 }
 
 /* ========== Pagination ========== */
@@ -260,26 +654,39 @@ h1 {
   align-items: center;
   justify-content: center;
   gap: var(--spacing-md);
-  margin: var(--spacing-lg) 0;
+  margin: var(--spacing-xl) 0;
 }
 
 .pagination a {
-  padding: 0.5rem 1.2rem;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: var(--radius-sm);
-  color: #333;
+  padding: 0.55rem 1.4rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-full);
+  color: var(--color-primary-dark);
+  font-weight: 700;
   text-decoration: none;
-  transition: background var(--transition);
+  transition: all var(--transition);
 }
 
 .pagination a:hover {
-  background: #eee;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(31, 110, 78, 0.3);
 }
 
-.pagination a:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+.pagination span {
+  color: var(--color-muted);
+  font-weight: 500;
+}
+
+/* ========== Footer ========== */
+.footer {
+  text-align: center;
+  padding: var(--spacing-lg) var(--spacing-md);
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  border-top: 1px solid var(--color-border);
 }
 
 /* ========== Utility ========== */
@@ -290,26 +697,57 @@ h1 {
 
 /* ========== Responsive ========== */
 @media (max-width: 700px) {
+  .navbar-inner {
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .navbar-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-bottom: var(--spacing-xs);
+  }
+
+  .hero {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .container {
+    padding: 0 var(--spacing-sm) var(--spacing-lg);
+  }
+
   .header,
   .container,
   .search-header,
   .welcome,
-  .no-results {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+  .no-results,
+  .error-box {
+    margin-left: 0;
+    margin-right: 0;
     padding: var(--spacing-md);
   }
 
   .quran {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
+  }
+
+  .verse {
+    padding: 0.85rem 0.6rem;
   }
 
   .search-form {
     flex-direction: column;
+    padding: var(--spacing-sm);
   }
 
   .search-form input {
     min-width: unset;
+  }
+
+  .navigation {
+    padding: var(--spacing-sm) var(--spacing-md);
   }
 
   .verse-wrapper {
@@ -319,5 +757,15 @@ h1 {
 
   .copy-verse {
     align-self: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

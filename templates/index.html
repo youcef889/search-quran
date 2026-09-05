@@ -4,8 +4,29 @@
 القرآن الكريم
 {% endblock %}
 
+{% block hero_subtitle %}
+<p class="hero-subtitle">
+    وَإِنَّهُ لَكِتَابٌ عَزِيزٌ
+</p>
+{% endblock %}
+
 
 {% block content %}
+    <form action="{{ url_for('search.search_page') }}" method="get" class="search-form">
+
+        <input
+            type="search"
+            name="q"
+            placeholder="ابحث في القرآن الكريم..."
+            value="{{ request.args.get('q', '') }}"
+            aria-label="البحث في القرآن"
+        >
+
+        <button type="submit">
+            بحث
+        </button>
+
+    </form>
 
 <div class="navigation">
 
@@ -15,8 +36,12 @@
 
     <select
         id="surah"
-        onchange="location.href='/surah/' + this.value"
+        aria-label="اختيار السورة"
     >
+
+        <option value="" {% if not current_surah %}selected{% endif %} disabled>
+            — اختر سورة —
+        </option>
 
         {% for surah_id, surah_verses in surahs.items() %}
 
@@ -26,7 +51,7 @@
                     selected
                 {% endif %}
             >
-                سورة {{ surah_id }}
+                {{ surah_names.get(surah_id|string, '') }} — سورة {{ surah_id }}
             </option>
 
         {% endfor %}
@@ -35,8 +60,13 @@
 
 </div>
 
+{% if verses and current_surah %}
 
-{% if verses %}
+<section class="surah-heading" aria-label="معلومات السورة">
+    <span class="ornament" aria-hidden="true">&#10022;</span>
+    <h2>سورة {{ current_surah }} — {{ surah_names.get(current_surah|string, '') }}</h2>
+    <span class="ornament" aria-hidden="true">&#10022;</span>
+</section>
 
 <section class="quran">
 
@@ -54,9 +84,12 @@
             surah_id=current_surah,
             verse=verse.number
         ) }}"
+        {% if verse.selected %}
+            aria-current="true"
+        {% endif %}
     >
 
-        <span class="verse-number">
+        <span class="verse-number" aria-hidden="true">
             {{ verse.number }}
         </span>
 
@@ -70,14 +103,15 @@
 
 </section>
 
-{% else %}
+{% elif not current_surah %}
 
 <div class="welcome">
 
-    <h2>القرآن الكريم</h2>
+    <h2>مرحبًا بك</h2>
 
     <p>
-        اختر سورة لعرض الآيات
+        اختر سورة من القائمة أعلاه لقراءة آياتها،
+        أو استخدم البحث للوصول السريع إلى الآية التي تريدها.
     </p>
 
 </div>

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}
+البحث بالآية
+{% endblock %}
+
+
+{% block content %}
+
+<section class="search-header">
+
+    <h2>البحث بالآية</h2>
+
+    <p>
+        الصق الآية أو جزءًا منها — حتى لو كانت بها أخطاء إملائية أو نقص في التشكيل.
+    </p>
+
+    <form action="{{ url_for('search.search_passage_page') }}" method="get" class="passage-form">
+
+        <textarea
+            name="q"
+            rows="3"
+            placeholder="اكتب الآية أو جزءًا منها، حتى لو كانت بها أخطاء أو نقص في التشكيل"
+            aria-label="نص الآية"
+        >{{ query }}</textarea>
+
+        <button type="submit">بحث</button>
+
+    </form>
+
+    {% if query %}
+
+        <p>
+            نص البحث:
+            <strong class="query-badge">{{ query }}</strong>
+        </p>
+
+        <p>
+            عدد النتائج القريبة:
+            {{ total }}
+        </p>
+
+    {% endif %}
+
+</section>
+
+
+{% if results %}
+
+<section class="results">
+
+    {% for result in results %}
+
+        <article class="result">
+
+            <div class="result-info">
+
+                <span class="surah-chip">
+                    <span class="chip-number">{{ result.surah }}</span>
+                    {{ surah_names.get(result.surah|string, '') }}
+                </span>
+
+                <a href="{{ url_for(
+                    'main.surah',
+                    surah_id=result.surah,
+                    verse=result.verse
+                ) }}">
+
+                    الآية {{ result.verse }}
+
+                </a>
+
+                <span class="score" title="نسبة التطابق">
+                    {{ result.score }}%
+                </span>
+
+                <button
+                    type="button"
+                    class="copy-verse"
+                    data-copy-text="{{ result.text|e }}"
+                    title="نسخ الآية"
+                >
+                    نسخ الآية
+                </button>
+
+            </div>
+
+            <p class="result-text" dir="rtl">
+                {% for segment in result.highlight.segments %}
+                    {% if segment.match %}
+                        <mark class="search-match">{{ segment.text }}</mark>
+                    {% else %}
+                        {{ segment.text }}
+                    {% endif %}
+                {% endfor %}
+            </p>
+
+        </article>
+
+    {% endfor %}
+
+</section>
+
+{% elif query %}
+
+<div class="no-results">
+
+    <h3>لا توجد نتائج قريبة</h3>
+
+    <p>
+        لم يتم العثور على آيات مقاربة لما كتبته. جرّب تقليل النص المُدخل،
+        أو استخدم
+        <a href="{{ url_for('search.search_page', q=query) }}">
+            البحث بالكلمات المفتاحية
+        </a>
+        بدلاً من ذلك.
+    </p>
+
+</div>
+
+{% else %}
+
+<div class="welcome">
+
+    <h2>كيف يعمل البحث بالآية؟</h2>
+
+    <p>
+        اكتب آية كاملة أو مقطعًا منها في الحقل أعلاه، وسيبحث التطبيق بأسلوب ذكي
+        يتحمّل الأخطاء الإملائية ونقص التشكيل، ويعرض لك أقرب الآيات مع نسبة التطابق.
+    </p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
