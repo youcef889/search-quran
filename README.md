@@ -1,6 +1,6 @@
 # Quran App
 
-A bilingual (Arabic / English) **Flask web application** for reading and searching the Holy Qur'an. It ships with the full Qur'an text and a custom, Dart-style **inverted-index** search engine that is robust to Qur'anic orthography (tashkeel, dagger alif, and other diacritics).
+A bilingual (Arabic / English) **Flask web application** for  searching the Holy Qur'an. It ships with the full Qur'an text and a custom, Dart-style **inverted-index** search engine that is robust to Qur'anic orthography (tashkeel, dagger alif, and other diacritics).
 
 ## Features
 
@@ -109,6 +109,4 @@ The search engine (`services/quran.py`) mirrors a Dart-style inverted index foun
 - `data/quran.json` — main dataset: `{ "surah_id": { "verse_id": "text" } }` (114 surahs).
 - `data/warsh.json` — a second Qur'an dataset (currently not wired into the app).
 
-## License
 
-Add your project license here.
