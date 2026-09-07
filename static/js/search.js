@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".copy-verse").forEach((button) => {
     button.addEventListener("click", async () => {
       const text = button.dataset.copyText || "";
-      const original = button.textContent;
+      const original = button.innerHTML;
 
       try {
         await navigator.clipboard.writeText(text);
@@ -72,11 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function copied(button, original) {
-    const label = original || "نسخ الآية";
-    button.textContent = "تم النسخ ✓";
+    const label = button.classList.contains("copy-inline") ? "✓" : "تم النسخ ✓";
+    button.innerHTML = label;
     button.classList.add("copied");
     setTimeout(() => {
-      button.textContent = label;
+      button.innerHTML = original;
       button.classList.remove("copied");
     }, 1500);
   }

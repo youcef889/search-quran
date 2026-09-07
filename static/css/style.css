@@ -337,72 +337,73 @@ a {
 }
 
 /* ========== Quran Display ========== */
+
+/* The Quran passage reads as one continuous RTL block. Each verse is an
+   inline run (text followed by a small verse number) so verses flow
+   together and wrap naturally instead of forming separate blocks. */
 .quran {
-  background: var(--color-surface);
-  padding: var(--spacing-lg);
-  border: 1px solid var(--color-border);
+  direction: rtl;
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent-dark);
   border-radius: var(--radius);
+  padding: clamp(1rem, 3vw, 1.75rem);
   box-shadow: 0 4px 26px var(--color-shadow);
+  font-family: var(--font-quran);
+  font-size: clamp(1.25rem, 3.4vw, 2.3rem);
+  line-height: 2.15;
+  text-align: justify;
+  word-spacing: 0.12em;
+  overflow-wrap: break-word;
 }
 
-/* Verse block-level */
 .verse {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-sm);
-  padding: 1rem 0.9rem;
-  margin: 0.35rem 0;
-  border-radius: var(--radius-sm);
-  border: 1px solid transparent;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0.2em;
+  color: var(--color-primary-strong);
   text-decoration: none;
-  color: inherit;
   scroll-margin-top: 88px;
-  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+  transition: background-color var(--transition);
 }
 
 .verse:hover {
-  background: var(--color-primary-soft);
-  border-color: var(--color-border-strong);
+  background-color: rgba(31, 110, 78, 0.08);
 }
 
 .verse-text {
-  flex: 1;
-  font-family: var(--font-quran);
-  font-size: clamp(1.5rem, 4.5vw, 2.7rem);
-  line-height: 2.15;
-  color: var(--color-primary-strong);
-  font-weight: 500;
-  font-feature-settings: "kern" 1;
+  display: inline;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  word-spacing: inherit;
+  color: inherit;
+  white-space: normal;
 }
 
 .verse-number {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.1rem;
-  height: 2.1rem;
-  margin-top: 1.6rem;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 35% 30%, #fdf3cf, var(--color-gold-soft));
-  border: 1px solid #e5ce8f;
-  color: var(--color-gold);
-  font-family: var(--font-quran);
-  font-size: 1rem;
+  display: inline;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+  margin: 0 0.15em;
+  font-family: inherit;
+  font-size: 0.62em;
   font-weight: 700;
+  line-height: 1;
+  color: var(--color-gold);
+}
+
+.verse-number::before {
+  content: "(";
+}
+
+.verse-number::after {
+  content: ")";
 }
 
 .selected-verse {
-  background: var(--color-selected);
-  border-color: #eadc9e;
-  box-shadow: inset 4px 0 0 var(--color-gold);
-}
-
-.selected-verse .verse-number {
-  background: var(--color-gold);
-  color: #fff;
-  border-color: var(--color-gold);
+  background-color: var(--color-selected);
 }
 
 /* ========== Welcome ========== */
@@ -535,13 +536,6 @@ a {
 }
 
 /* ========== Copy Button ========== */
-.verse-wrapper {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-sm);
-  flex-wrap: wrap;
-}
-
 .copy-verse {
   flex-shrink: 0;
   padding: 0.5rem 0.9rem;
@@ -565,6 +559,49 @@ a {
   background: var(--color-primary);
   border-color: var(--color-primary);
   color: #fff;
+}
+
+/* Inline copy action inside the continuous Quran passage. Sits in-flow
+   right after the verse number; normally faint, brighter on hover. */
+.copy-inline {
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: 0.12em;
+  width: 1.3em;
+  height: 1.3em;
+  margin: 0 0.2em;
+  padding: 0;
+  border: 0;
+  border-radius: 0.3em;
+  background: transparent;
+  color: var(--color-gold);
+  font-size: 0.5em;
+  line-height: 1;
+  opacity: 0.45;
+  cursor: pointer;
+  transition: opacity var(--transition), color var(--transition), background-color var(--transition);
+}
+
+.copy-inline svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.copy-inline:hover,
+.copy-inline:focus-visible,
+.verse:hover + .copy-inline {
+  opacity: 1;
+  color: var(--color-primary-dark);
+  background-color: var(--color-primary-soft);
+}
+
+.copy-inline.copied {
+  border-color: transparent;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  opacity: 1;
 }
 
 /* ========== Passage form ========== */
@@ -729,12 +766,8 @@ a {
     padding: var(--spacing-md);
   }
 
-  .quran {
-    padding: var(--spacing-sm);
-  }
-
   .verse {
-    padding: 0.85rem 0.6rem;
+    scroll-margin-top: 150px;
   }
 
   .search-form {
@@ -748,11 +781,6 @@ a {
 
   .navigation {
     padding: var(--spacing-sm) var(--spacing-md);
-  }
-
-  .verse-wrapper {
-    flex-direction: column;
-    align-items: stretch;
   }
 
   .copy-verse {

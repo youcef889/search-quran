@@ -89,15 +89,20 @@
         {% endif %}
     >
 
-        <span class="verse-number" aria-hidden="true">
-            {{ verse.number }}
-        </span>
-
         <span class="verse-text">
             {{ verse.text }}
         </span>
 
-    </a>
+        <span class="verse-number" aria-hidden="true">
+            {{ verse.number }}
+        </span>
+
+    </a><button
+        type="button"
+        class="copy-verse copy-inline"
+        data-copy-text="{{ verse.text|e }}"
+        title="نسخ الآية {{ verse.number }}"
+        aria-label="نسخ الآية {{ verse.number }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg></button>
 
     {% endfor %}
 
