@@ -10,7 +10,11 @@ from services.surah_names import SURAH_NAMES
 
 
 def create_app(config: object | None = None) -> Flask:
-    app = Flask(__name__)
+    app = Flask(
+    __name__,
+    static_folder="static",
+    static_url_path=""
+)
     app.config.from_object(config or get_config())
 
     app.config.from_prefixed_env("QURAN")
