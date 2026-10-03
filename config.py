@@ -34,6 +34,9 @@ class Config:
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
 
+    # Google Analytics 4
+    GA_MEASUREMENT_ID = os.environ.get("GA_MEASUREMENT_ID")
+
     # Logging
     LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
 
