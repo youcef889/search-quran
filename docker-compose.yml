@@ -3,9 +3,41 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+
     container_name: quran-app
-    ports:
-      - "4000:4000"
+
+    expose:
+      - "4000"
+
     restart: unless-stopped
+
     command: gunicorn --workers 4 --bind 0.0.0.0:4000 app:app
 
+    networks:
+      - quran
+
+  nginx:
+    image: nginx:alpine
+
+    container_name: quran-nginx
+
+    restart: unless-stopped
+
+    ports:
+      - "80:80"
+      - "443:443"
+
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/www:/var/www/certbot:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+      - ./nginx-logs:/var/log/nginx
+    depends_on:
+      - web
+
+    networks:
+      - quran
+
+networks:
+  quran:
+    driver: bridge
