@@ -72,7 +72,6 @@ def _register_error_handlers(app: Flask) -> None:
         app.logger.exception("Unhandled error: %s", error)
         return render_template("error.html", code=500, message="حدث خطأ داخلي"), 500
 
-
 def _register_security_headers(app: Flask) -> None:
     @app.after_request
     def set_security_headers(response):
@@ -81,8 +80,11 @@ def _register_security_headers(app: Flask) -> None:
         response.headers.setdefault("Referrer-Policy", "no-referrer")
         response.headers.setdefault(
             "Content-Security-Policy",
-            "default-src 'self'; style-src 'self' https://fonts.googleapis.com; "
-            "font-src 'self' https://fonts.gstatic.com; script-src 'self'",
+            "default-src 'self'; "
+            "style-src 'self' https://fonts.googleapis.com; "
+            "font-src 'self' https://fonts.gstatic.com; "
+            "script-src 'self' https://cloud.umami.is; "
+            "connect-src 'self' https://cloud.umami.is",
         )
         return response
 
