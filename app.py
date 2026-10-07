@@ -84,7 +84,7 @@ def _register_security_headers(app: Flask) -> None:
             "style-src 'self' https://fonts.googleapis.com; "
             "font-src 'self' https://fonts.gstatic.com; "
             "script-src 'self' https://cloud.umami.is; "
-            "connect-src 'self' https://cloud.umami.is",
+            "connect-src 'self' https://cloud.umami.is https://gateway.umami.is",
         )
         return response
 
