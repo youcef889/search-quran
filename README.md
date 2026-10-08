@@ -14,6 +14,15 @@ A bilingual (Arabic / English) **Flask web application** for  searching the Holy
   - **Word-aware highlighting** that projects matches back onto the original text, preserving all diacritics.
 - **Arabic normalization** that handles tashkeel, dagger alif (both orthographic variants), tatweel, and bidi control characters.
 
+## Documentation
+
+All project documentation lives in the centralized, Git-versioned repository
+**[docs/](docs/README.md)** — organized by lifecycle phase (`initiation/`,
+`planning/`, `execution/`, `closing/`) plus subject matter (`technical/`: architecture,
+API, search engine, configuration, deployment, testing, data, ADRs) and a cross-cutting
+[project lifecycle](docs/project-lifecycle.md). This README only covers the overview
+and quick start.
+
 ## Tech Stack
 
 - **Python 3.13**
@@ -27,23 +36,21 @@ A bilingual (Arabic / English) **Flask web application** for  searching the Holy
 ```
 quran_app/
 ├── app.py              # Flask application factory & entry point
+├── config.py           # Environment config + search hard limits
 ├── requirements.txt    # Python dependencies
 ├── Dockerfile          # Container definition (Gunicorn on port 4000)
-├── data/
-│   ├── quran.json      # Primary Qur'an text (surah -> verse -> text)
-│   └── warsh.json      # Additional Warsh-style Qur'an dataset
-├── routes/
-│   ├── __init__.py
-│   └── main.py         # Route definitions (index, surah, search)
-├── services/
-│   ├── __init__.py
-│   └── quran.py        # Quran data access + inverted-index search engine
-├── static/
-├── templates/
-│   ├── base.html       # RTL base layout with header + search bar
-│   ├── index.html      # Surah list / surah reader
-│   └── search.html     # Search results page
+├── data/               # quran.json (active), warsh.json (unused)
+├── repositories/       # JSON data access (QuranRepository)
+├── routes/             # main (browse), search (keyword / JSON / passage)
+├── services/           # normalizer, quran_search, surah_names
+├── static/             # css, js, robots.txt, sitemap.xml
+├── templates/          # base, index, search, search_passage, error
+├── nginx/ certbot/     # Reverse proxy + TLS
+├── tests/              # pytest suite
+└── docs/               # Central documentation repository
 ```
+
+Full breakdown: [docs/technical/architecture.md](docs/technical/architecture.md).
 
 ## Getting Started
 
@@ -92,21 +99,26 @@ The container serves the app on port **4000**.
 | Route | Description |
 | --- | --- |
 | `/` | List all 114 surahs |
-| `/surah/<surah_id>` | Read a surah; add `?verse=<n>` to show context around a verse |
-| `/search?q=<query>&page=<n>` | Search the Qur'an, with pagination |
+| `/surah/<surah_id>` | Read a surah; add `?verse=<n>` to show 3 verses of context |
+| `/search?q=<query>&page=<n>` | Keyword search (AND), ranked, paginated |
+| `/search/json` | Same search as JSON |
+| `/search/passage` | Fuzzy passage match (`threshold`, `limit`) |
+
+Full parameter tables and limits: [docs/technical/api.md](docs/technical/api.md).
 
 ## Search
 
-The search engine (`services/quran.py`) mirrors a Dart-style inverted index found in a companion Flutter application. Key behaviors:
+An inverted-index engine over the whole Qur'an: Arabic normalization (tashkeel, dagger
+alif in both readings, alef/hamza/ta-marbuta variants), AND retrieval, relevance
+ranking, and highlighting projected back onto the fully-diacriticized text — plus a
+fuzzy passage mode for quotations with typos.
 
-- **Normalization** — removes Qur'anic marks and short vowels, normalizes alef/hamza/ta-marbuta variants, and supports both dagger-alif interpretations (`ٰ -> ا` or removed).
-- **Candidate retrieval** — intersects the smallest posting lists first for efficiency.
-- **Ranking** — bonuses for exact full-phrase match, phrase occurrence, phrase at verse start, word proximity, and in-order words.
-- **Highlighting** — every query word is highlighted independently; matches are found in normalized text and mapped back to positions in the original, fully-diacriticized verse.
+Specification: [docs/technical/search-engine.md](docs/technical/search-engine.md).
 
 ## Data
 
 - `data/quran.json` — main dataset: `{ "surah_id": { "verse_id": "text" } }` (114 surahs).
 - `data/warsh.json` — a second Qur'an dataset (currently not wired into the app).
 
+Schemas and provenance: [docs/technical/data.md](docs/technical/data.md).
 
